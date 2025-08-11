@@ -8,9 +8,13 @@ from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.runnables import Runnable, RunnableParallel
 from langchain_mistralai import ChatMistralAI
 from langchain_mistralai.embeddings import MistralAIEmbeddings
+from langchain_ollama.embeddings import OllamaEmbeddings
 
 from chat.dao.vector_stores import QdrantVectorStoreDAO
-from config import MODEL_CONFIG
+from config import (
+    MODEL_CONFIG,
+    OLLAMA_CONFIG,
+)
 
 
 LOGGER = logging.getLogger(__name__)
@@ -21,9 +25,13 @@ CHAT = ChatMistralAI(
     model_name=MODEL_CONFIG.model_name,
     temperature=MODEL_CONFIG.temperature,
 )
-EMBEDDING = MistralAIEmbeddings(
+# EMBEDDING = MistralAIEmbeddings(
+#     model=MODEL_CONFIG.embed_name,
+#     api_key=MODEL_CONFIG.api_key,
+# )
+EMBEDDING = OllamaEmbeddings(
+    base_url=OLLAMA_CONFIG.url,
     model=MODEL_CONFIG.embed_name,
-    api_key=MODEL_CONFIG.api_key,
 )
 
 

@@ -11,10 +11,13 @@ requires-python = ">=3.12"
 dependencies = [
     "arize-phoenix>=11.21.0",
     "chainlit>=2.6.8",
+    "docx2txt>=0.9",
     "fastapi>=0.116.1",
     "langchain-community>=0.3.27",
     "langchain-mistralai>=0.2.11",
+    "langchain-ollama>=0.3.6",
     "langchain-qdrant>=0.2.0",
+    "ollama>=0.5.3",
     "openinference-instrumentation-langchain>=0.1.50",
     "pydantic>=2.11.7",
     "pydantic-settings>=2.10.1",
@@ -23,3 +26,8 @@ dependencies = [
 
 [tool.setuptools.packages.find]
 where = ["src"]
+
+[dependency-groups]
+dev = [
+    "tqdm>=4.67.1",
+]

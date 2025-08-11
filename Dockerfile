@@ -12,8 +12,7 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     --mount=type=bind,source=.python-version,target=.python-version \
     uv sync --locked --no-install-project --no-dev
-COPY .chainlit/ /app/.chainlit
-COPY public/ /app/public/
+
 COPY main.py /app/
 COPY src/ /app/src/
 RUN --mount=type=cache,target=/root/.cache/uv \
@@ -21,6 +20,9 @@ RUN --mount=type=cache,target=/root/.cache/uv \
     --mount=type=bind,source=pyproject.toml,target=pyproject.toml \
     --mount=type=bind,source=.python-version,target=.python-version \
     uv sync --locked --no-dev
+
+COPY .chainlit/ /app/.chainlit
+COPY public/ /app/public/
 
 
 FROM debian:bookworm-slim

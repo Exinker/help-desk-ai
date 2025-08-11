@@ -1,10 +1,25 @@
 services:
-  vector-storage:
+  qdrant:
     image: qdrant/qdrant
+    container_name: qdrant
     ports:
       - "6333:6333"
     volumes:
       - qdrant:/qdrant/storage:z
+
+  ollama:
+    image: ollama/ollama
+    container_name: ollama
+    ports:
+      - "11434:11434"
+    volumes:
+      - ollama:/root/.ollama
+
+  phoenix:
+    image: arizephoenix/phoenix
+    container_name: phoenix
+    ports:
+      - "6006:6006"
 
   app:
     build:
@@ -17,12 +32,15 @@ services:
       - MODEL_URL=$MODEL_URL
       - MODEL_GENERATION_NAME=$MODEL_GENERATION_NAME
       - MODEL_EMBEDDING_NAME=$MODEL_EMBEDDING_NAME
-      - QDRANT_HOST=vector-storage
+      - OLLAMA_HOST=ollama
+      - TRACER_ENDPOINT=http://phoenix:6006/v1/traces
+      - TRACER_PROJECT_NAME=help-desk-ai
+      - QDRANT_HOST=qdrant
     ports:
       - "80:80"
-      - "6006:6006"
-    command: ["python", "main.py"]
 
 volumes:
   qdrant:
+    driver: local
+  ollama:
     driver: local

@@ -9,7 +9,10 @@ from fastapi.requests import Request
 from openinference.instrumentation.langchain import LangChainInstrumentor
 from phoenix.otel import register
 
-from config import LOGGING_CONFIG
+from config import (
+    LOGGING_CONFIG,
+    TRACER_CONFIG,
+)
 
 
 logging.basicConfig(
@@ -21,8 +24,8 @@ LOGGER = logging.getLogger(__name__)
 
 
 tracer_provider = register(
-    project_name='help-desk-ai',
-    endpoint='http://localhost:6006/v1/traces',
+    endpoint=TRACER_CONFIG.endpoint,
+    project_name=TRACER_CONFIG.project_name,
 )
 LangChainInstrumentor().instrument(tracer_provider=tracer_provider)
 

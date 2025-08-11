@@ -3,11 +3,11 @@
 
 # python files
 __pycache__/
+*.py[oc]
 build/
 dist/
 wheels/
 *.egg-info
-*.py[oc]
 
 # environment variables
 .env
@@ -16,8 +16,14 @@ wheels/
 .venv/
 
 # project files
-/data
-/src/knowledgebase
+/data/
+/src/knowledgebase/
 
 # git files
 .git
+.gitignore
+
+# docker files
+.dockerignore
+docker-compose.yaml
+Dockerfile

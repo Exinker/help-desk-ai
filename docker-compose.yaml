@@ -7,11 +7,22 @@ services:
       - qdrant:/qdrant/storage:z
 
   app:
-    image: help-desk-ai
-    command: ["uv", "run", "main.py"]
+    build:
+      context: .
+    container_name: app
+    environment:
+      - CHAT_KNOWLEDGE_BASE_ID=$CHAT_KNOWLEDGE_BASE_ID
+      - LOGGING_LEVEL=$LOGGING_LEVEL
+      - MODEL_API_KEY=$MODEL_API_KEY
+      - MODEL_URL=$MODEL_URL
+      - MODEL_GENERATION_NAME=$MODEL_GENERATION_NAME
+      - MODEL_EMBEDDING_NAME=$MODEL_EMBEDDING_NAME
+      - QDRANT_HOST=vector-storage
     ports:
       - "80:80"
+      - "6006:6006"
+    command: ["python", "main.py"]
 
 volumes:
-  vector-storage:
+  qdrant:
     driver: local

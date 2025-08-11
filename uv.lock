@@ -827,38 +827,30 @@ name = "help-desk-ai"
 version = "0.1.0"
 source = { editable = "." }
 dependencies = [
+    { name = "arize-phoenix" },
     { name = "chainlit" },
     { name = "fastapi" },
     { name = "langchain-community" },
     { name = "langchain-mistralai" },
     { name = "langchain-qdrant" },
+    { name = "openinference-instrumentation-langchain" },
     { name = "pydantic" },
     { name = "pydantic-settings" },
     { name = "qdrant-client" },
 ]
 
-[package.dev-dependencies]
-dev = [
-    { name = "arize-phoenix" },
-    { name = "openinference-instrumentation-langchain" },
-]
-
 [package.metadata]
 requires-dist = [
+    { name = "arize-phoenix", specifier = ">=11.21.0" },
     { name = "chainlit", specifier = ">=2.6.8" },
     { name = "fastapi", specifier = ">=0.116.1" },
     { name = "langchain-community", specifier = ">=0.3.27" },
     { name = "langchain-mistralai", specifier = ">=0.2.11" },
     { name = "langchain-qdrant", specifier = ">=0.2.0" },
+    { name = "openinference-instrumentation-langchain", specifier = ">=0.1.50" },
     { name = "pydantic", specifier = ">=2.11.7" },
     { name = "pydantic-settings", specifier = ">=2.10.1" },
     { name = "qdrant-client", specifier = ">=1.15.1" },
-]
-
-[package.metadata.requires-dev]
-dev = [
-    { name = "arize-phoenix", specifier = ">=11.21.0" },
-    { name = "openinference-instrumentation-langchain", specifier = ">=0.1.50" },
 ]
 
 [[package]]

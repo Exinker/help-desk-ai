@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=61.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "help-desk-ai"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "chainlit>=2.6.8",
+    "fastapi>=0.116.1",
+    "langchain-community>=0.3.27",
+    "langchain-mistralai>=0.2.11",
+    "langchain-qdrant>=0.2.0",
+    "pydantic>=2.11.7",
+    "pydantic-settings>=2.10.1",
+    "qdrant-client>=1.15.1",
+]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[dependency-groups]
+dev = [
+    "arize-phoenix>=11.21.0",
+    "openinference-instrumentation-langchain>=0.1.50",
+]

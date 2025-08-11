@@ -1,0 +1,14 @@
+# python files
+__pycache__/
+*.py[oc]
+build/
+dist/
+wheels/
+*.egg-info
+
+# virtual environment
+.venv
+
+# project files
+/data
+/src/knowledgebase

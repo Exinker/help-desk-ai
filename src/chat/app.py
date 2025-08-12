@@ -1,4 +1,5 @@
 import logging
+from collections.abc import Mapping, Sequence
 
 import chainlit as cl
 
@@ -17,14 +18,24 @@ async def on_chat_start():
     )
     cl.user_session.set('service', service)
 
+    cl.user_session.set('history', [])
+
 
 @cl.on_message
-async def on_message(message: cl.Message) -> cl.Message:
+async def on_message(request: cl.Message) -> cl.Message:
     service: Service = cl.user_session.get('service')
+    history: Sequence[Mapping[str, str]] = cl.user_session.get('history')
 
-    LOGGER.warning(message.content)
+    LOGGER.warning(history)
+    LOGGER.warning(request.content)
 
     response = cl.Message(content='')
-    async for chunk in service.chain.astream(message.content):
-        await response.stream_token(chunk)
-    await response.send()
+    try:
+        async for chunk in service.chain.astream({'question': request.content, 'history': history}):
+            await response.stream_token(chunk)
+        await response.send()
+    finally:
+        history.extend((
+            {'user': request.content},
+            {'assistant': response.content},
+        ))

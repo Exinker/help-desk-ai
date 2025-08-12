@@ -1,11 +1,11 @@
 import logging
-from collections.abc import Sequence
+from collections.abc import Mapping, Sequence
 from typing import Self
 
 from langchain_core.documents import Document
 from langchain_core.output_parsers import StrOutputParser
 from langchain_core.prompts import ChatPromptTemplate
-from langchain_core.runnables import Runnable, RunnableParallel
+from langchain_core.runnables import Runnable, RunnableLambda, RunnableParallel
 from langchain_mistralai import ChatMistralAI
 from langchain_mistralai.embeddings import MistralAIEmbeddings
 from langchain_ollama.embeddings import OllamaEmbeddings
@@ -54,8 +54,9 @@ class Service:
         )
 
         chain = RunnableParallel(
-            context=retriever | cls.format_documents,
-            question=lambda text: text,
+            context=RunnableLambda(lambda data: data['question']) | retriever | cls.format_documents,
+            history=lambda data: cls.format_history(data['history']),
+            question=lambda data: data['question'],
         ) | ChatPromptTemplate([
             ('system', system_prompt),
         ]) | CHAT | StrOutputParser()
@@ -76,9 +77,18 @@ class Service:
         return self._chain
 
     @staticmethod
+    def format_history(history: Sequence[Mapping[str, str]]) -> str:
+
+        return '\n'.join([
+            f'{role}: {content}'
+            for record in history
+            for role, content in record.items()
+        ])
+
+    @staticmethod
     def format_documents(documents: Sequence[Document]) -> str:
 
-        return '\n\n'.join([
+        return '\n'.join([
             document.page_content
             for document in documents
         ])

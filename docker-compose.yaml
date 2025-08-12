@@ -38,6 +38,11 @@ services:
       - QDRANT_HOST=qdrant
     ports:
       - "80:80"
+    depends_on:
+      - qdrant
+      - ollama
+      - phoenix
+
 
 volumes:
   qdrant:

@@ -2,7 +2,7 @@ from langchain_core.embeddings import Embeddings
 from langchain_qdrant import QdrantVectorStore
 from qdrant_client import QdrantClient
 
-from chat.dao.vector_stores.base_vector_store import BaseVectorStoreDAO
+from chat.dao.vector_stores.base_vector_store_dao import BaseVectorStoreDAO
 from config import QDRANT_CONFIG
 
 

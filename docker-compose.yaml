@@ -6,6 +6,7 @@ services:
       - "6333:6333"
     volumes:
       - qdrant:/qdrant/storage:z
+    restart: unless-stopped
 
   ollama:
     image: ollama/ollama
@@ -14,12 +15,27 @@ services:
       - "11434:11434"
     volumes:
       - ollama:/root/.ollama
+    restart: unless-stopped
 
   phoenix:
     image: arizephoenix/phoenix
     container_name: phoenix
     ports:
       - "6006:6006"
+    restart: unless-stopped
+
+  database:
+    image: postgres:16.9
+    container_name: database
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=$DB_USERNAME
+      - POSTGRES_PASSWORD=$DB_PASSWORD
+      - POSTGRES_DB=$DB_DATABASE
+    volumes:
+      - postgres:/var/lib/postgresql/data
+    restart: unless-stopped
 
   app:
     build:
@@ -43,4 +59,6 @@ volumes:
   qdrant:
     driver: local
   ollama:
+    driver: local
+  postgres:
     driver: local

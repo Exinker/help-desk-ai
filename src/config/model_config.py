@@ -1,4 +1,5 @@
 from pydantic import Field, SecretStr
+from pydantic_settings import BaseSettings, SettingsConfigDict
 
 from config.base_config import BaseConfig
 
@@ -11,4 +12,18 @@ class ModelConfig(BaseConfig):
     temperature: float = Field(0.2, alias='MODEL_TEMPERATURE')
 
 
+class YandexClientConfig(BaseSettings):
+
+    url: str = Field(alias='YANDEX_CLIENT_URL')
+    api_key: SecretStr = Field(alias='YANDEX_CLIENT_API_KEY')
+    folder_id: str = Field(alias='YANDEX_CLIENT_FOLDER_ID')
+    model_name: str = Field(alias='YANDEX_CLIENT_MODEL_NAME')
+
+    model_config = SettingsConfigDict(
+        env_file='.env',
+        extra='ignore',
+    )
+
+
 MODEL_CONFIG = ModelConfig()
+YANDEX_CLIENT_CONFIG = YandexClientConfig()

@@ -88,8 +88,8 @@ class Service:
 
         return '\n\n'.join([
             '\n'.join([
-                'Headers: {}'.format('/'.join(document.metadata['headers'])),
-                'Summary: {}'.format(document.metadata['summary']),
+                'Headers: {}'.format('/'.join(document.metadata.get('headers', ''))),
+                'Summary: {}'.format(document.metadata.get('summary', '')),
                 'Content: {}'.format(document.page_content),
             ])
             for document in documents
